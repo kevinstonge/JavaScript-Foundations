@@ -4,19 +4,48 @@
 /* Create variables for principal, interest rate, and years. Assign them the values 200000, 0.05, and 30 respectively. Create another value called name and give it the value of your own name.
 */
 
-class mortgage {
-    constructor(principal, interest, years) {
-      this.principal = principal | 200000;
-      this.interest = interest | 0.05;
-      this.years = years | 30;
+class Mortgage {
+  constructor(mortgageDetails) {
+    this.name = mortgageDetails.name || "Buddy";
+    this.principal = mortgageDetails.principal || 200000;
+    this.interest = mortgageDetails.interest || 0.05;
+    this.years = mortgageDetails.years || 30;
+    this.calculateRate();
+  }
+  calculateRate() {
+    //M = P [ I ( 1 + I )^N ] / [ ( 1 + I )^N – 1 ]
+    //let temp = this.principal * ( this.interest * Math.pow((1 + this.interest),(this.years*12)) / Math.pow((1 + this.interest),this.years*12));
+    let n = this.years * 12;
+    let p = this.principal;
+    let i = this.interest/12;
+    let numerator = p*(i*Math.pow((1+i),n));
+    let denominator = Math.pow((1+i),n)-1;
+    this.monthlyRate = ((numerator/denominator).toFixed(2));
+  }
+  processInput(e) {
+    let elementId = e.target.id;
+    let value = e.target.value.replace(/\,|\$|\%/gi,"");
+    switch (elementId) {
+      case "principal": 
+        if (this.validateInput(elementId,Number(value))) { this.principal = e.target.value }
+        break;
     }
   }
+  validateInput(elementId,value) {
+    if (!isNaN(value)) { 
+      document.querySelector(`#${elementId}`).style.border = "1px solid red";
+    }
+  }
+}
 
 const loadListener = window.addEventListener('load',()=>{
-
-    document.querySelector("#output").innerText = "hello World";
+    const myMortgage = new Mortgage({name:"Buddy",principal:200000,interest:0.05,years:30});
+    inputListener = document.querySelector("#mainForm").addEventListener('input',(e)=>{
+      e.preventDefault();
+      myMortgage.processInput(e);
+    })
+    document.querySelector("#output").innerText = `years: ${myMortgage.years}`;
 })
-
 
 
 // 🏡 Task 1.5: Simple Math
@@ -50,6 +79,14 @@ If your name is `Oscar` mortgageCalculator() should return "Oscar, your monthly 
 */
 
 
+function mortgageCalculator() {
+    let cName = window.prompt("Your name:");
+    let cPrincipal = window.prompt("mortgage principal amount ($):");
+    let cInterest = window.prompt("mortgage interest rate (%)\n example: enter 5% as 0.05:")
+    let cYears = window.prompt("mortgage term (years)");
+    let consoleMortgage = new Mortgage({name:cName,principal:cPrincipal,interest:cInterest,years:cYears})
+    console.log("console:" + consoleMortgage.monthlyRate); 
+}
 
 
 
