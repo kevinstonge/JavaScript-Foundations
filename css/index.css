@@ -172,3 +172,10 @@ html {
   background-color: #222;
   color: #ccc;
 }
+input {
+  outline: none;
+  border: 0.2rem solid #ddd;
+}
+input.invalid {
+  border: 0.2rem solid #f35388;
+}

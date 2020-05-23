@@ -17,7 +17,7 @@ class Mortgage {
     //let temp = this.principal * ( this.interest * Math.pow((1 + this.interest),(this.years*12)) / Math.pow((1 + this.interest),this.years*12));
     let n = this.years * 12;
     let p = this.principal;
-    let i = this.interest/12;
+    let i = this.interest/12/100;
     let numerator = p*(i*Math.pow((1+i),n));
     let denominator = Math.pow((1+i),n)-1;
     this.monthlyRate = ((numerator/denominator).toFixed(2));
@@ -25,15 +25,23 @@ class Mortgage {
   processInput(e) {
     let elementId = e.target.id;
     let value = e.target.value.replace(/\,|\$|\%/gi,"");
-    switch (elementId) {
-      case "principal": 
-        if (this.validateInput(elementId,Number(value))) { this.principal = e.target.value }
-        break;
+    if (this.validateInput(elementId,Number(value))) { 
+      this[elementId] = e.target.value 
+      this.calculateRate();
+      document.querySelector("#monthlyRate").innerText = this.monthlyRate;
+    }
+    else {
+      document.querySelector("#monthlyRate").innerText = "invalid input";
     }
   }
   validateInput(elementId,value) {
-    if (!isNaN(value)) { 
-      document.querySelector(`#${elementId}`).style.border = "1px solid red";
+    if (isNaN(value)) { 
+      document.querySelector(`#${elementId}`).className = "invalid";
+      return false;
+    }
+    else {
+      document.querySelector(`#${elementId}`).className = "";
+      return true;
     }
   }
 }
@@ -82,7 +90,7 @@ If your name is `Oscar` mortgageCalculator() should return "Oscar, your monthly 
 function mortgageCalculator() {
     let cName = window.prompt("Your name:");
     let cPrincipal = window.prompt("mortgage principal amount ($):");
-    let cInterest = window.prompt("mortgage interest rate (%)\n example: enter 5% as 0.05:")
+    let cInterest = window.prompt("mortgage interest rate (%)\n instructions: enter 5% as 5, not 0.05:")
     let cYears = window.prompt("mortgage term (years)");
     let consoleMortgage = new Mortgage({name:cName,principal:cPrincipal,interest:cInterest,years:cYears})
     console.log("console:" + consoleMortgage.monthlyRate); 
