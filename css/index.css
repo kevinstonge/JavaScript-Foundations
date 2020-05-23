@@ -169,5 +169,6 @@ img {
   margin: 0 auto;
 }
 html {
-  background-color: #333;
+  background-color: #222;
+  color: #ccc;
 }

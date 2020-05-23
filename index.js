@@ -4,7 +4,18 @@
 /* Create variables for principal, interest rate, and years. Assign them the values 200000, 0.05, and 30 respectively. Create another value called name and give it the value of your own name.
 */
 
+class mortgage {
+    constructor(principal, interest, years) {
+      this.principal = principal | 200000;
+      this.interest = interest | 0.05;
+      this.years = years | 30;
+    }
+  }
 
+const loadListener = window.addEventListener('load',()=>{
+
+    document.querySelector("#output").innerText = "hello World";
+})
 
 
 
