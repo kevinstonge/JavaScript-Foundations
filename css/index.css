@@ -172,6 +172,39 @@ html {
   background-color: #222;
   color: #ccc;
 }
+body {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+@media (min-width: 28rem) {
+  body {
+    padding: 1rem;
+  }
+}
+body > #mainCalculator {
+  padding: 1rem;
+  border: 0.1rem solid #eee;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+@media (min-width: 28rem) {
+  body > #mainCalculator {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+}
+body #imgContainer {
+  width: 100%;
+}
+@media (min-width: 28rem) {
+  body #imgContainer {
+    max-width: 32rem;
+  }
+}
 input {
   outline: none;
   border: 0.2rem solid #ddd;

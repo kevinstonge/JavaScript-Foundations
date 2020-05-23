@@ -1,20 +1,14 @@
-// 🌟🌟🌟 M V P 🌟🌟🌟//
-
-// 🏡 Task 1: Variables
-/* Create variables for principal, interest rate, and years. Assign them the values 200000, 0.05, and 30 respectively. Create another value called name and give it the value of your own name.
-*/
-
 class Mortgage {
   constructor(mortgageDetails) {
-    this.name = mortgageDetails.name || "Buddy";
-    this.principal = mortgageDetails.principal || 200000;
-    this.interest = mortgageDetails.interest || 0.05;
-    this.years = mortgageDetails.years || 30;
+    this.principal = mortgageDetails.principal;
+    this.interest = mortgageDetails.interest;
+    this.years = mortgageDetails.years;
     this.calculateRate();
   }
   calculateRate() {
-    //M = P [ I ( 1 + I )^N ] / [ ( 1 + I )^N – 1 ]
-    //let temp = this.principal * ( this.interest * Math.pow((1 + this.interest),(this.years*12)) / Math.pow((1 + this.interest),this.years*12));
+    if (!isNaN(this.principal) || !isNaN(this.interest) || !isNaN(this.years)) {
+      document.querySelector("#monthlyRate").innerText = "invalid input";
+    }
     let n = this.years * 12;
     let p = this.principal;
     let i = this.interest/12/100;
@@ -29,10 +23,19 @@ class Mortgage {
       this[elementId] = e.target.value 
       this.calculateRate();
       document.querySelector("#monthlyRate").innerText = this.monthlyRate;
+      this.updateImage();
     }
-    else {
-      document.querySelector("#monthlyRate").innerText = "invalid input";
-    }
+  }
+  updateImage() {
+    let imgElement = document.querySelector("#mtgImg");
+    let i = this.interest;
+    let imgNum;
+    if      (i<= 3)           { imgNum = 1; }
+    else if (i > 3 && i <= 4) { imgNum = 2; }
+    else if (i > 4 && i <= 5) { imgNum = 3; }
+    else if (i > 5 && i <= 6) { imgNum = 4; }
+    else                      { imgNum = 5; }
+    imgElement.src = `assets/mtg0${imgNum}.png`;
   }
   validateInput(elementId,value) {
     if (isNaN(value)) { 
@@ -47,38 +50,12 @@ class Mortgage {
 }
 
 const loadListener = window.addEventListener('load',()=>{
+    document.querySelector("#principal").focus();
     const myMortgage = new Mortgage({name:"Buddy",principal:200000,interest:0.05,years:30});
     inputListener = document.querySelector("#mainForm").addEventListener('input',(e)=>{
-      e.preventDefault();
       myMortgage.processInput(e);
     })
-    document.querySelector("#output").innerText = `years: ${myMortgage.years}`;
 })
-
-
-// 🏡 Task 1.5: Simple Math
-/* To create a monthly mortgage rate calculator, we need to know the number of years in months and the monthly interest rate. 
-
-Create a variable called `monthlyInterestRate` and give it the value of interest rate divided by 12. 
-
-Create another variable called `periods` and give it the value of years*12.
-*/
-
-
-
-
-// 🏡 Task 2: Harder Math
-/* Create your calculator! Use the formula in the ReadMe to run calculations on your numbers. Save the final value into a variable called monthlyRate.
-
-Hint: while these calculations can be done in one line, it might be helpful to create a variable called "numerator" to calculate the numerator, and another called "denominator" to calculate the denominator 
-
-Hint #2: you'll need to use the `math` object for parts of this calculation!
-
-When your math is correct, monthlyRate will equal 1073.64
-*/
-
-
-
 
 // 🏡 Task 3: Function
 /* Create a function called `mortgageCalculator` that combines all of the steps from task 1 and 2 and returns a sentence "{Name}, your monthly rate is ${monthlyRate}"
@@ -92,22 +69,9 @@ function mortgageCalculator() {
     let cPrincipal = window.prompt("mortgage principal amount ($):");
     let cInterest = window.prompt("mortgage interest rate (%)\n instructions: enter 5% as 5, not 0.05:")
     let cYears = window.prompt("mortgage term (years)");
-    let consoleMortgage = new Mortgage({name:cName,principal:cPrincipal,interest:cInterest,years:cYears})
+    let consoleMortgage = new Mortgage({principal:cPrincipal,interest:cInterest,years:cYears})
     console.log("console:" + consoleMortgage.monthlyRate); 
 }
-
-
-
-// 🏡 Task 4: Arguments and Parameters
-/* Substitute the variables in your functions for parameters such that you can substitute `P`, `I`, and `N` when you call the function.
-
-For example,
-mortgageCalculator(200000, 0.05, 30); <-- should return 1,073.64
-*/
-
-
-
-
 
 // 🏡 Task 5: Conditionals
 /* Add another paramter to your function called credit score. This parameter will be a number between 0 and 800 (a credit score).

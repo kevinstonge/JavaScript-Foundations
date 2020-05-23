@@ -8,22 +8,35 @@
     <script src="index.js"></script>
   </head>
   <body>
-    <p>Open up the console to check your work!</p>
-    <p id="output"></p>
-    <form id="mainForm">
-      <label for="principal">
-        <p>Principal ($):</p>
-        <p><input id="principal" type="text"></p>
-      </label>
-      <label for="interest">
-        <p>Interest (%):</p>
-        <p><input id="interest" type="text"></p>
-      </label>
-      <label for="term">
-        <p>Term (years):</p>
-        <p><input id="term" type="text"></p>
-      </label>
-    </form>
-    <p id="monthlyRate"></p>
+    <heading>
+      <h1>Mortgage Calculator</h1>
+    </heading>
+    <section id="mainCalculator">
+      <div id="mainInput">
+        <h2>enter your details:</h2>
+        <form id="mainForm">
+          <label for="principal">
+            <p>Principal ($):</p>
+            <p><input id="principal" type="text" autocomplete="off"></p>
+          </label>
+          <label for="interest">
+            <p>Interest (%):</p>
+            <p><input id="interest" type="text" autocomplete="off"></p>
+          </label>
+          <label for="term">
+            <p>Term (years):</p>
+            <p><input id="term" type="text" autocomplete="off"></p>
+          </label>
+        </form>
+      </div>
+      <div id="mainOutput">
+        <h2>your monthly payment:</h2>
+        <p id="monthlyRate"></p>
+        <div id="imgContainer">
+          <img id="mtgImg" src="assets/mtg05.png">
+        </div>
+      </div>
+    </section>
+    
   </body>
 </html>
