@@ -144,71 +144,105 @@ h5 {
   font-family: 'Courier New', Courier, monospace;
 }
 h1 {
-  font-size: 4rem;
+  font-size: 3rem;
 }
 h2 {
-  font-size: 3.2rem;
-  padding-bottom: 10px;
+  font-size: 2rem;
+  padding-bottom: 1rem;
 }
 h4 {
-  font-size: 2.5rem;
-  padding-bottom: 10px;
+  font-size: 1.7rem;
+  padding-bottom: 1rem;
 }
 p {
   line-height: 1.5;
-  font-size: 1.6rem;
-  padding-bottom: 10px;
+  font-size: 1.4rem;
+  padding-bottom: 1rem;
 }
 img {
   max-width: 100%;
   height: auto;
 }
-.container {
-  max-width: 800px;
-  width: 100%;
-  margin: 0 auto;
-}
 html {
-  background-color: #222;
+  background-color: #111;
   color: #ccc;
 }
 body {
-  padding: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  align-content: center;
+  padding: 0;
 }
 @media (min-width: 28rem) {
   body {
     padding: 1rem;
   }
 }
-body > #mainCalculator {
-  padding: 1rem;
-  border: 0.1rem solid #eee;
+body heading {
+  margin-bottom: 0.5rem;
+}
+body > .contentBox {
+  margin-bottom: 1rem;
+  background-color: #222;
+  border-radius: 0.1rem;
+  padding: 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 @media (min-width: 28rem) {
-  body > #mainCalculator {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-evenly;
+  body > .contentBox {
+    padding: 1rem;
   }
 }
-body #imgContainer {
+.contentBox .boxContent {
+  background-color: #333;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 0.1rem;
+  padding: 0.1rem;
+}
+@media (min-width: 28rem) {
+  .contentBox .boxContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 0.5rem;
+  }
+}
+.contentBox .boxContent > div {
+  background-color: #444;
+  width: 100%;
+  padding: 0.1rem;
+  border: none;
+  margin: 0;
+}
+@media (min-width: 28rem) {
+  .contentBox .boxContent > div {
+    width: 50%;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    border-radius: 0.1rem;
+  }
+}
+.contentBox .boxContent label > p {
+  padding-bottom: 0.1rem;
+}
+.contentBox .boxContent form {
+  padding-bottom: 1rem;
+}
+.contentBox .boxContent .outputText {
+  color: #5de65d;
+  font-weight: bold;
+}
+.contentBox .boxContent #imgContainer {
   width: 100%;
 }
 @media (min-width: 28rem) {
-  body #imgContainer {
+  .contentBox .boxContent #imgContainer {
     max-width: 32rem;
   }
-}
-input {
-  outline: none;
-  border: 0.2rem solid #ddd;
-}
-input.invalid {
-  border: 0.2rem solid #f35388;
 }

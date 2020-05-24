@@ -11,32 +11,42 @@
     <heading>
       <h1>Mortgage Calculator</h1>
     </heading>
-    <section id="mainCalculator">
-      <div id="mainInput">
-        <h2>enter your details:</h2>
-        <form id="mainForm">
-          <label for="principal">
-            <p>Principal ($):</p>
-            <p><input id="principal" type="text" autocomplete="off"></p>
-          </label>
-          <label for="interest">
-            <p>Interest (%):</p>
-            <p><input id="interest" type="text" autocomplete="off"></p>
-          </label>
-          <label for="term">
-            <p>Term (years):</p>
-            <p><input id="term" type="text" autocomplete="off"></p>
-          </label>
-        </form>
+
+    <section id="mainCalculator" class="contentBox">
+      <div class="boxHeader">
+        <h2>Monthly mortgage payment</h2>
       </div>
-      <div id="mainOutput">
-        <h2>your monthly payment:</h2>
-        <p id="monthlyRate"></p>
-        <div id="imgContainer">
-          <img id="mtgImg" src="assets/mtg05.png">
+      <div class="boxContent">
+        <div id="mainInput">
+          <h2>enter your details</h2>
+          <form id="mainForm">
+            <label for="principal">
+              <p>Principal: <span id="pValue" class="outputText"></span></p>
+              <p><input id="principal" type="range" min=10000 max=1000000 step=5000></p>
+            </label>
+            <label for="interest">
+              <p>Interest: <span id="iValue" class="outputText"></span></p>
+              <p><input id="interest" type="range" min=0.05 max=8 step=0.05></p>
+            </label>
+            <label for="term">
+              <p>Term: <span id="tValue" class="outputText"></span></p>
+              <p><input id="term" type="range" min=5 max=40 step=1></p>
+            </label>
+          </form>
+          <h2>your monthly payment:</h2>
+          <h2 id="monthlyRate" class="outputText"></h2>
+        </div>
+        <div>
+          <div id="imgContainer">
+            <img id="mtgImg" src="assets/mtg00.png">
+          </div>
         </div>
       </div>
     </section>
     
+    <section class="contentBox">
+      <p>hi</p>
+    </section>
+
   </body>
 </html>

@@ -2,56 +2,47 @@ class Mortgage {
   constructor(mortgageDetails) {
     this.principal = mortgageDetails.principal;
     this.interest = mortgageDetails.interest;
-    this.years = mortgageDetails.years;
+    this.term = mortgageDetails.term;
     this.calculateRate();
   }
   calculateRate() {
-    if (!isNaN(this.principal) || !isNaN(this.interest) || !isNaN(this.years)) {
-      document.querySelector("#monthlyRate").innerText = "invalid input";
-    }
-    let n = this.years * 12;
+    let n = this.term * 12;
     let p = this.principal;
     let i = this.interest/12/100;
     let numerator = p*(i*Math.pow((1+i),n));
     let denominator = Math.pow((1+i),n)-1;
     this.monthlyRate = ((numerator/denominator).toFixed(2));
+    this.updateDom();
   }
   processInput(e) {
     let elementId = e.target.id;
-    let value = e.target.value.replace(/\,|\$|\%/gi,"");
-    if (this.validateInput(elementId,Number(value))) { 
-      this[elementId] = e.target.value 
-      this.calculateRate();
-      document.querySelector("#monthlyRate").innerText = this.monthlyRate;
-      this.updateImage();
-    }
+    let value = e.target.value;
+    this[elementId] = value 
+    this.calculateRate();
   }
-  updateImage() {
+  updateDom() {
+    document.querySelector("#principal").value = this.principal;
+    document.querySelector("#pValue").innerText = "$" + this.principal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    document.querySelector("#interest").value = this.interest;
+    document.querySelector("#iValue").innerText = this.interest + "%";
+    document.querySelector("#term").value = this.term;
+    document.querySelector("#tValue").innerText = this.term + "yr";
+    document.querySelector("#monthlyRate").innerText = "$" + this.monthlyRate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     let imgElement = document.querySelector("#mtgImg");
     let i = this.interest;
     let imgNum;
-    if      (i<= 3)           { imgNum = 1; }
-    else if (i > 3 && i <= 4) { imgNum = 2; }
-    else if (i > 4 && i <= 5) { imgNum = 3; }
-    else if (i > 5 && i <= 6) { imgNum = 4; }
-    else                      { imgNum = 5; }
+    if      (i<= 2)           { imgNum = 0; }
+    else if (i > 2 && i <= 3) { imgNum = 1; }
+    else if (i > 3 && i <= 5) { imgNum = 2; }
+    else if (i > 5 && i <= 6) { imgNum = 3; }
+    else                      { imgNum = 4; }
     imgElement.src = `assets/mtg0${imgNum}.png`;
-  }
-  validateInput(elementId,value) {
-    if (isNaN(value)) { 
-      document.querySelector(`#${elementId}`).className = "invalid";
-      return false;
-    }
-    else {
-      document.querySelector(`#${elementId}`).className = "";
-      return true;
-    }
   }
 }
 
 const loadListener = window.addEventListener('load',()=>{
     document.querySelector("#principal").focus();
-    const myMortgage = new Mortgage({name:"Buddy",principal:200000,interest:0.05,years:30});
+    const myMortgage = new Mortgage({principal:200000,interest:5,term:30});
     inputListener = document.querySelector("#mainForm").addEventListener('input',(e)=>{
       myMortgage.processInput(e);
     })
@@ -68,9 +59,9 @@ function mortgageCalculator() {
     let cName = window.prompt("Your name:");
     let cPrincipal = window.prompt("mortgage principal amount ($):");
     let cInterest = window.prompt("mortgage interest rate (%)\n instructions: enter 5% as 5, not 0.05:")
-    let cYears = window.prompt("mortgage term (years)");
-    let consoleMortgage = new Mortgage({principal:cPrincipal,interest:cInterest,years:cYears})
-    console.log("console:" + consoleMortgage.monthlyRate); 
+    let cTerm = window.prompt("mortgage term (years)");
+    let consoleMortgage = new Mortgage({principal:cPrincipal,interest:cInterest,term:cTerm})
+    console.log(`${cName}, your monthly rate is ${consoleMortgage.monthlyRate}`); 
 }
 
 // 🏡 Task 5: Conditionals

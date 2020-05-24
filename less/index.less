@@ -2,36 +2,5 @@
 @import 'global';
 @import 'mixins';
 @import 'variables';
-html {
-    background-color: #colors[bg0];
-    color: #colors[fg0];
-}
-body {
-    padding: 0;
-    @media @desktop {
-        padding: 1rem;
-    }
-    .flex(column,center);
-    >#mainCalculator {
-        padding: 1rem;
-        border: 0.1rem solid #colors[fg2];
-        .flex(column,center);
-        @media @desktop {
-            .flex(row,space-evenly);
-        }
-    }
-    #imgContainer {
-        width: 100%;
-        @media @desktop {
-            max-width: 32rem;
-        }
-    }
-}
-input {
-    outline: none;
-    border: 0.2rem solid #colors[fg1];
-}
-
-input.invalid {
-    border: 0.2rem solid #colors[em2];
-}
+@import 'topLevel';
+@import 'contentBox';
