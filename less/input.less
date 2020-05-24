@@ -1,0 +1,78 @@
+.sliderThumb() {
+    border: 0.3rem solid #colors[bg0];
+    height: #spaces[lg];
+    width: #spaces[lg];
+    border-radius: 50%;
+    background: #colors[em3];
+    cursor: pointer;
+}
+
+input[type=range] {
+    width: 98%;
+    background: transparent;
+}
+/* Special styling for WebKit/Blink */
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    .sliderThumb();
+    margin-top: -0.1rem; /* need margin in Chrome, automatic in FF/IE */
+  }
+    /* Firefox */
+  input[type=range]::-moz-range-thumb {
+    .sliderThumb();
+  }
+  /* IE */
+  input[type=range]::-ms-thumb {
+      .sliderThumb();
+  }
+
+.sliderTrack() {
+    width: 100%;
+    height: #spaces[sm];
+    cursor:pointer;
+    background: #colors[em1];
+}
+
+  input[type=range]::-webkit-slider-runnable-track {
+    .sliderTrack();
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #colors[bg0];
+    border-radius: 1.3px;
+    border: 0.2px solid #colors[bg0];
+  }
+  
+  input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #colors[em1];
+  }
+  
+  input[type=range]::-moz-range-track {
+    .sliderTrack();
+    box-shadow: 1px 1px 1px #000000, 0px 0px 1px #colors[bg0];
+    border-radius: 1.3px;
+    border: 0.2px solid #colors[bg0];
+  }
+  
+  input[type=range]::-ms-track {
+    .sliderTrack();
+    background: transparent;
+    border-color: transparent;
+    border-width: 16px 0;
+    color: transparent;
+  }
+  input[type=range]::-ms-fill-lower {
+    background: #colors[em1];
+    border: 0.2px solid #colors[bg0];
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px #colors[bg0], 0px 0px 1px #0d0d0d;
+  }
+  input[type=range]:focus::-ms-fill-lower {
+    background: #colors[em1];
+  }
+  input[type=range]::-ms-fill-upper {
+    background: #colors[em1];
+    border: 0.2px solid #colors[bg0];
+    border-radius: 2.6px;
+    box-shadow: 1px 1px 1px #colors[bg0], 0px 0px 1px #0d0d0d;
+  }
+  input[type=range]:focus::-ms-fill-upper {
+    background: #colors[em1];
+  }
