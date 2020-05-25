@@ -8,15 +8,17 @@
 }
 
 input[type=range] {
+    -webkit-appearance: none;
     width: 98%;
     background: transparent;
 }
 /* Special styling for WebKit/Blink */
-input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    .sliderThumb();
-    margin-top: -0.1rem; /* need margin in Chrome, automatic in FF/IE */
+  input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      .sliderThumb();
+      margin-top: -0.5rem; /* need margin in Chrome, automatic in FF/IE */
   }
+
     /* Firefox */
   input[type=range]::-moz-range-thumb {
     .sliderThumb();

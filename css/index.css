@@ -252,6 +252,7 @@ body > .contentBox {
   }
 }
 input[type=range] {
+  -webkit-appearance: none;
   width: 98%;
   background: transparent;
 }
@@ -264,7 +265,7 @@ input[type=range]::-webkit-slider-thumb {
   border-radius: 50%;
   background: #71dabf;
   cursor: pointer;
-  margin-top: -0.1rem;
+  margin-top: -0.5rem;
   /* need margin in Chrome, automatic in FF/IE */
 }
 /* Firefox */
