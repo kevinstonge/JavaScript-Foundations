@@ -37,7 +37,6 @@ class Mortgage {
     this.updateDOM();
   }
   populateVariableArray() {
-    // 10 different interest rates at 0.5% increments plus or minus 2% from the inputted interest rate.
     this.variableRateArray = [];
     let minRate = 0.5;
     if (this.interest >= 2) {
@@ -47,10 +46,6 @@ class Mortgage {
     for (let i=minRate;i<=maxRate;i+=0.5) {
       this.variableRateArray.push(i.toFixed(2));
     }
-  }
-  processCreditScore(e) {
-    this.creditScore = e.target.value;
-    this.calculateRates();
   }
   processInput(e) {
     let elementId = e.target.id;
@@ -80,8 +75,6 @@ class Mortgage {
     document.querySelector("#csValue").innerText = this.creditScore;
     document.querySelector("#csInterest").innerText = this.rates.creditScore.i + "% APR";
     document.querySelector("#csMonthlyPayment").innerText = this.rates.creditScore.m;
-
-    //variableRateTable
     let tableHTML = "<tr><th>apr (%)</th><th>monthly payment ($)</th></tr>";
     for (let key in this.rates.variable) {
       let {i,m} = this.rates.variable[key];
@@ -98,8 +91,12 @@ const loadListener = window.addEventListener('load',()=>{
       myMortgage.processInput(e);
     })
     creditScoreFormListener = document.querySelector("#creditScoreForm").addEventListener('input',(e)=>{
-      myMortgage.processCreditScore(e);
+      myMortgage.processInput(e);
     });
+    //console info
+    console.info("console functions: ");
+    console.info("%cmortgageCalculator(your name, principal, interest, term in years)", "color: #66DDCC")
+    console.info("%cvariableInterestRate(your name, principal, interest, term in years, [(optional) array of interest rates])", "color: #66DDCC")
 })
 
 // 🏡 Task 3: Function
@@ -109,33 +106,29 @@ If your name is `Oscar` mortgageCalculator() should return "Oscar, your monthly 
 */
 
 
-function mortgageCalculator() {
-    let cName = window.prompt("Your name:");
-    let cPrincipal = window.prompt("mortgage principal amount ($):");
-    let cInterest = window.prompt("mortgage interest rate (%)\n instructions: enter 5% as 5, not 0.05:")
-    let cTerm = window.prompt("mortgage term (years)");
+
+//these two functions are just here so that I technically meet the requirements of the assignment
+function mortgageCalculator(cName,cPrincipal,cInterest,cTerm) {
+    cName = cName || window.prompt("Your name:");
+    cPrincipal = parseFloat(cPrincipal) || window.prompt("mortgage principal amount ($):");
+    cInterest = parseFloat(cInterest) || window.prompt("mortgage interest rate (%)\n instructions: enter 5% as 5, not 0.05:")
+    cTerm = parseFloat(cTerm) || window.prompt("mortgage term (years)");
     let consoleMortgage = new Mortgage({principal:cPrincipal,interest:cInterest,term:cTerm})
-    console.log(`${cName}, your monthly rate is ${consoleMortgage.monthlyRate}`); 
+    console.log(`${cName}, your monthly rate is $${consoleMortgage.rates.normal.m}`); 
 }
 
-
-// 🏡 Task 6: Loops
-/* Write a new function called variableInterestRate. This function should be the same as mortgageCalculator, except it should console.log the monthly payment for 10 different interest rates at 0.5% increments plus or minus 2% from the inputted interest rate. Complete these calculations using a for loop.
-
-For example, variableInterestRate(200000, 0.04, 30) should console.log:
-
-"{Name}, with an interest rate of 0.02, your monthly rate is $739"
-"{Name}, with an interest rate of 0.025, your monthly rate is $790"
-"{Name}, with an interest rate of 0.03, your monthly rate is $843"
-"{Name}, with an interest rate of 0.035, your monthly rate is $898"
-"{Name}, with an interest rate of 0.04, your monthly rate is $955"
-"{Name}, with an interest rate of 0.045, your monthly rate is $1013"
-"{Name}, with an interest rate of 0.05, your monthly rate is $1074"
-"{Name}, with an interest rate of 0.055, your monthly rate is $1136"
-"{Name}, with an interest rate of 0.06, your monthly rate is $1199"
-*/
-
-
+function variableInterestRate(cName,cPrincipal,cInterest,cTerm,cRates) {
+  cName = cName || window.prompt("Your name:");
+  cPrincipal = parseFloat(cPrincipal) || window.prompt("mortgage principal amount ($):");
+  cInterest = parseFloat(cInterest) || window.prompt("mortgage interest rate (%)\n instructions: enter 5% as 5, not 0.05:")
+  cTerm = parseFloat(cTerm) || window.prompt("mortgage term (years)");
+  cRates = cRates || [];
+  let consoleMortgage = new Mortgage({principal:cPrincipal,interest:cInterest,term:cTerm,variableRateArray:cRates})
+  for (let key in consoleMortgage.rates.variable) {
+    let {i,m} = consoleMortgage.rates.variable[key];
+    console.log(`${cName}, with an interest rate of ${i}, your monthly rate is $${m}`);
+  }
+}
 
 
 // 🌟🌟🌟 STRETCH 🌟🌟🌟//
@@ -148,7 +141,7 @@ For example, variableInterestRate(200000, 0.04, 30) should console.log:
 /* 🏡 Build a calculator function that accepts `monthly payment` and `interest rate` and returns the maximum loan that a person could afford */
 
 
-/* 🏡 Explore using `window.prompt()` to allow a user to input parameters in the browser */
+/* DONE ---> 🏡 Explore using `window.prompt()` to allow a user to input parameters in the browser */
 
 
-/* 🏡  Refactor your `variableInterestRate()` function to accept an array of interest rates (make sure to copy and paste as to not lose your work!) */
+/* 🏡  DONE ---> Refactor your `variableInterestRate()` function to accept an array of interest rates (make sure to copy and paste as to not lose your work!) */
