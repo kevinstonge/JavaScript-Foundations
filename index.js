@@ -3,31 +3,68 @@ class Mortgage {
     this.principal = mortgageDetails.principal;
     this.interest = mortgageDetails.interest;
     this.term = mortgageDetails.term;
-    this.calculateRate();
+    this.creditScore = mortgageDetails.creditScore;
+    this.variableRateArray = mortgageDetails.variableRateArray || [];
+    this.rates = {
+      normal: {},
+      creditScore: {},
+      variable: {},
+    };
+    this.calculateRates();
   }
-  calculateRate() {
-    let n = this.term * 12;
-    let p = this.principal;
-    let i = this.interest/12/100;
+  rateCalculation(principal,interest,term) {
+    let n = term * 12;
+    let i = interest/12/100;
+    let p = principal;
     let numerator = p*(i*Math.pow((1+i),n));
     let denominator = Math.pow((1+i),n)-1;
-    this.monthlyRate = ((numerator/denominator).toFixed(2));
-    this.updateDom();
+    let m = (numerator/denominator).toFixed(2);
+    return {p:principal,i:interest,t:term,m:m};
+  }
+  calculateRates() {
+    //normal mortgage
+    this.rates.normal = this.rateCalculation(this.principal,this.interest,this.term);
+    //credit score adjusted mortgage
+    let creditScoreRate = this.interest;
+    if (this.creditScore > 740) { creditScoreRate -= 0.5; }
+    else if (this.creditScore < 600) { creditScoreRate += 0.5; }
+    this.rates.creditScore = this.rateCalculation(this.principal,creditScoreRate,this.term);
+    //rate comparison table/array
+    if (this.variableRateArray.length == 0) { 
+      // 10 different interest rates at 0.5% increments plus or minus 2% from the inputted interest rate.
+      let minRate = 0;
+      if (this.interest > 2.5) {
+        minRate = this.interest - 2;
+      }
+      let maxRate = minRate + 4;
+      for (let i=minRate;i<=maxRate;i+=0.5) {
+        this.variableRateArray.push(i);
+      }
+    }
+    this.variableRateArray.forEach((e,i)=>{
+      this.rates.variable[i] = this.rateCalculation(this.principal,e,this.term);
+    })
+    console.log(this.rates.variable);
+    this.updateDOM();
+  }
+  processCreditScore(e) {
+    this.creditScore = e.target.value;
+    this.calculateRates();
   }
   processInput(e) {
     let elementId = e.target.id;
     let value = e.target.value;
     this[elementId] = value 
-    this.calculateRate();
+    this.calculateRates();
   }
-  updateDom() {
+  updateDOM() {
     document.querySelector("#principal").value = this.principal;
     document.querySelector("#pValue").innerText = "$" + this.principal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     document.querySelector("#interest").value = this.interest;
     document.querySelector("#iValue").innerText = this.interest + "%";
     document.querySelector("#term").value = this.term;
     document.querySelector("#tValue").innerText = this.term + "yr";
-    document.querySelector("#monthlyRate").innerText = "$" + this.monthlyRate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    document.querySelector("#monthlyRate").innerText = "$" + this.rates.normal.m.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     let imgElement = document.querySelector("#mtgImg");
     let i = this.interest;
     let imgNum;
@@ -37,15 +74,23 @@ class Mortgage {
     else if (i > 5 && i <= 6) { imgNum = 3; }
     else                      { imgNum = 4; }
     imgElement.src = `assets/mtg0${imgNum}.png`;
+    document.querySelector("#creditScore").value = this.creditScore;
+    document.querySelector("#csValue").innerText = this.creditScore;
+    document.querySelector("#csInterest").innerText = this.rates.creditScore.i + "% APR";
+    document.querySelector("#csMonthlyPayment").innerText = this.rates.creditScore.m;
+
   }
 }
 
 const loadListener = window.addEventListener('load',()=>{
     document.querySelector("#principal").focus();
-    const myMortgage = new Mortgage({principal:200000,interest:5,term:30});
-    inputListener = document.querySelector("#mainForm").addEventListener('input',(e)=>{
+    const myMortgage = new Mortgage({principal:200000,interest:5,term:30,creditScore:700});
+    mainFormListener = document.querySelector("#mainForm").addEventListener('input',(e)=>{
       myMortgage.processInput(e);
     })
+    creditScoreFormListener = document.querySelector("#creditScoreForm").addEventListener('input',(e)=>{
+      myMortgage.processCreditScore(e);
+    });
 })
 
 // 🏡 Task 3: Function
@@ -63,14 +108,6 @@ function mortgageCalculator() {
     let consoleMortgage = new Mortgage({principal:cPrincipal,interest:cInterest,term:cTerm})
     console.log(`${cName}, your monthly rate is ${consoleMortgage.monthlyRate}`); 
 }
-
-// 🏡 Task 5: Conditionals
-/* Add another paramter to your function called credit score. This parameter will be a number between 0 and 800 (a credit score).
-
-Then, add control flow within your function such that IF creditScore is above 740, interest rate drops by 0.5%, if credit score is below 660, interest rate increases by 0.5% and if credit score is anywhere between 660 and 740 interest rate doesn't change.
-*/
-
-
 
 
 // 🏡 Task 6: Loops
