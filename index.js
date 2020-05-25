@@ -5,6 +5,7 @@ class Mortgage {
     this.term = mortgageDetails.term;
     this.creditScore = mortgageDetails.creditScore;
     this.variableRateArray = mortgageDetails.variableRateArray || [];
+    if (this.variableRateArray.length == 0) { this.populateVariableArray(); }
     this.rates = {
       normal: {},
       creditScore: {},
@@ -19,33 +20,33 @@ class Mortgage {
     let numerator = p*(i*Math.pow((1+i),n));
     let denominator = Math.pow((1+i),n)-1;
     let m = (numerator/denominator).toFixed(2);
-    return {p:principal,i:interest,t:term,m:m};
+    return {p:parseFloat(principal).toFixed(0),i:parseFloat(interest).toFixed(3),t:term,m:parseFloat(m).toFixed(2)};
   }
   calculateRates() {
     //normal mortgage
     this.rates.normal = this.rateCalculation(this.principal,this.interest,this.term);
     //credit score adjusted mortgage
-    let creditScoreRate = this.interest;
-    if (this.creditScore > 740) { creditScoreRate -= 0.5; }
-    else if (this.creditScore < 600) { creditScoreRate += 0.5; }
+    let creditScoreRate = parseFloat(this.interest);
+    if (this.creditScore > 740) { creditScoreRate = parseFloat(this.interest) - 0.5; }
+    else if (this.creditScore < 600) { creditScoreRate = parseFloat(this.interest) + 0.5; }
     this.rates.creditScore = this.rateCalculation(this.principal,creditScoreRate,this.term);
     //rate comparison table/array
-    if (this.variableRateArray.length == 0) { 
-      // 10 different interest rates at 0.5% increments plus or minus 2% from the inputted interest rate.
-      let minRate = 0;
-      if (this.interest > 2.5) {
-        minRate = this.interest - 2;
-      }
-      let maxRate = minRate + 4;
-      for (let i=minRate;i<=maxRate;i+=0.5) {
-        this.variableRateArray.push(i);
-      }
-    }
     this.variableRateArray.forEach((e,i)=>{
       this.rates.variable[i] = this.rateCalculation(this.principal,e,this.term);
     })
-    console.log(this.rates.variable);
     this.updateDOM();
+  }
+  populateVariableArray() {
+    // 10 different interest rates at 0.5% increments plus or minus 2% from the inputted interest rate.
+    this.variableRateArray = [];
+    let minRate = 0.5;
+    if (this.interest >= 2) {
+      minRate = this.interest - 2;
+    }
+    let maxRate = minRate + 4;
+    for (let i=minRate;i<=maxRate;i+=0.5) {
+      this.variableRateArray.push(i.toFixed(2));
+    }
   }
   processCreditScore(e) {
     this.creditScore = e.target.value;
@@ -54,7 +55,8 @@ class Mortgage {
   processInput(e) {
     let elementId = e.target.id;
     let value = e.target.value;
-    this[elementId] = value 
+    this[elementId] = value; 
+    this.populateVariableArray();
     this.calculateRates();
   }
   updateDOM() {
@@ -79,6 +81,13 @@ class Mortgage {
     document.querySelector("#csInterest").innerText = this.rates.creditScore.i + "% APR";
     document.querySelector("#csMonthlyPayment").innerText = this.rates.creditScore.m;
 
+    //variableRateTable
+    let tableHTML = "<tr><th>apr (%)</th><th>monthly payment ($)</th></tr>";
+    for (let key in this.rates.variable) {
+      let {i,m} = this.rates.variable[key];
+      tableHTML += `<tr><td>${i}</td><td>${m}</td></tr>`;
+    }
+    document.querySelector("#variableRateTable").innerHTML = tableHTML;
   }
 }
 
