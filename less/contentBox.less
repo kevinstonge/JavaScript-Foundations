@@ -1,0 +1,39 @@
+.contentBox {
+    .boxContent {
+        background-color: #colors[bg2];
+        .flex(column,center);
+        border-radius: #spaces[xs];
+        padding: #spaces[xs];
+        @media @desktop {
+            .flex(row,center);
+            padding: #spaces[sm];
+        }
+        >div {
+            background-color: #colors[bg3];
+            width: 100%;
+            padding: #spaces[xs];
+            border: none;
+            margin: 0;
+            @media @desktop {
+                width: 50%;
+                padding: #spaces[sm];
+                margin: #spaces[sm];
+                border-radius: #spaces[xs];
+            }
+        }
+        label>p { padding-bottom: #spaces[xs]; }
+        form { 
+            padding-bottom: #spaces[md]; 
+        }
+        .outputText { 
+            color: #colors[em0];
+            font-weight: bold;
+        }
+        #imgContainer {
+            width: 100%;
+            @media @desktop {
+                max-width: 32rem;
+            }
+        }
+    }
+}

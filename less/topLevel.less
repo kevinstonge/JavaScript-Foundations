@@ -1,0 +1,28 @@
+html {
+    background-color: #colors[bg0];
+    color: #colors[fg0];
+}
+body {
+    .flex(column,center);
+    align-items: center;
+    align-content: center;
+    padding: 0;
+    @media @desktop {
+        padding: #spaces[md];
+    }
+    heading {
+        margin-bottom: #spaces[sm];
+    }
+    >.contentBox {
+        margin-bottom: #spaces[md];
+        background-color: #colors[bg1];
+        border-radius: #spaces[xs];
+        padding: #spaces[sm];
+        width: 100%;
+        @media @desktop {
+            padding: #spaces[md];
+            max-width: 56rem;
+        }
+        .flex(column, center)
+    }
+}

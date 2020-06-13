@@ -4,10 +4,77 @@
     <title>JavaScript Foundations</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="index.js"></script>
   </head>
   <body>
-    <p>Open up the console to check your work!</p>
+    <heading>
+      <h1>mortgage calculator</h1>
+    </heading>
+
+    <section id="mainCalculator" class="contentBox">
+      <div class="boxHeader">
+        <h2>monthly mortgage payment</h2>
+      </div>
+      <div class="boxContent">
+        <div id="mainInput">
+          <h2>enter your details</h2>
+          <form id="mainForm">
+            <label for="principal">
+              <p>principal: <span id="pValue" class="outputText"></span></p>
+              <p><input id="principal" type="range" min=10000 max=1000000 step=5000></p>
+            </label>
+            <label for="interest">
+              <p>interest: <span id="iValue" class="outputText"></span></p>
+              <p><input id="interest" type="range" min=0.05 max=8 step=0.05></p>
+            </label>
+            <label for="term">
+              <p>term: <span id="tValue" class="outputText"></span></p>
+              <p><input id="term" type="range" min=5 max=40 step=1></p>
+            </label>
+          </form>
+          <h2>your monthly payment</h2>
+          <h2 id="monthlyRate" class="outputText"></h2>
+        </div>
+        <div>
+          <div id="imgContainer">
+            <img id="mtgImg" src="assets/mtg00.png">
+          </div>
+        </div>
+      </div>
+    </section>
     
-      <script src="index.js"></script>
+    <section class="contentBox">
+      <div class="boxHeader">
+        <h2>credit score advantage</h2>
+      </div>
+      <div class="boxContent">
+        <div>
+          <form id="creditScoreForm">
+            <label for="creditScore">
+              <p>credit score: <span id="csValue" class="outputText"></span></p>
+              <p><input id="creditScore" type="range" min=300 max=850 step=5></p>
+            </label>
+          </form>
+        </div>
+        <div>
+          <p>with this credit score you could qualify for:</p>
+          <p class="outputText" id="csInterest"></p>
+          <p class="outputText" id="csMonthlyPayment"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="contentBox">
+      <div class="boxHeader">
+        <h2>mortgage rate comparison</h2>
+      </div>
+      <div class="boxContent">
+        <table id="variableRateTable">
+
+        </table>
+      </div>
+    </section>
+
   </body>
 </html>

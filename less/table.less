@@ -1,0 +1,14 @@
+table {
+    margin: #spaces[sm];
+    background-color: #colors[bg2];
+    tr:nth-child(even) {
+        background-color: #colors[bg3]; /* not working */
+    }
+    th,td {
+        vertical-align: middle;
+        padding: #spaces[sm];
+    }
+    th:nth-child(1),td:nth-child(1) {
+        padding-right: #spaces[xl];
+    }
+}
